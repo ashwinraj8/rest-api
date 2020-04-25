@@ -1,0 +1,16 @@
+let jwt = require('jsonwebtoken');
+
+module.exports = (req,res,next)=>{
+
+    try{
+        let token = req.headers.authorization.split(" ")[1];
+        console.log(token);
+        let decoded = jwt.verify(token, 'secretkey',null)
+        req.userData = decoded;
+        next();
+    } catch(error){
+        return res.status(401).json({
+            message: 'Auth failed'
+        });
+    }
+};
